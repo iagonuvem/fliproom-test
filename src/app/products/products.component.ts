@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../../core/api.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css'],
+  standalone: true,
+  imports: [IonicModule, CommonModule, FormsModule]
 })
 export class ProductsComponent implements OnInit {
   /**
