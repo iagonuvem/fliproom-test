@@ -30,4 +30,8 @@ export class ProductsComponent implements OnInit {
   onToggleProductsType(productType: string) {}
 
   onSortByClick(sortBy: string) {}
+
+  newProduct(){
+    this._router.navigateByUrl('/new-product');
+  }
 }
