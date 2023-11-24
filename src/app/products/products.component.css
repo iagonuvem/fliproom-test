@@ -1,0 +1,44 @@
+.product-list{
+    padding: 0;
+    background: transparent;
+}
+
+.product{
+    margin: 0.5rem auto;
+    border-radius: 1rem;
+    --background: rgba(255,255,255,0.11);
+}
+
+.product-details{
+    padding: .7rem;
+    width: 100%;
+}
+
+.product-details > h3{
+    margin: 0;
+    max-width: calc(100% - 5rem);
+}
+
+.product-details > .product-code{
+    margin-bottom: .5rem;
+}
+
+.product-details > .time-note{
+    position: fixed;
+    right: 1rem;
+    top: 1.3rem;
+    max-width: 5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.product-details .edit-btn-container{
+    max-width: 3rem;
+}
+
+.product-thumb{
+    position: relative;
+    left: 0;
+    height: 100%;
+    min-width: 25%;
+}

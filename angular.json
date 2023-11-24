@@ -27,6 +27,7 @@
                 "output": "./svg"
               }
             ],
+            "optimization": { "styles": { "inlineCritical": false } },
             "styles": [
               "src/styles.css",
               {
