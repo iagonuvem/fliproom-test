@@ -3,7 +3,7 @@ import { Observable, map, of } from 'rxjs';
 import { Product } from '../models/Product.model';
 import { HttpClient } from '@angular/common/http';
 import { InventoryRecord } from '../models/InventoryRecord.model';
-import moment from 'moment';
+import * as moment from 'moment';
 
 export interface IQueryResponse {
   data: Object[];
@@ -24,7 +24,7 @@ export class ApiService {
     const numOfProductsToGenerate = 25;
     //Generate product data
     for (let idx = 0; idx < numOfProductsToGenerate; idx++) {
-      const body = {
+      const body: Product | any = {
         ID: idx + 1,
         title: `${Math.random().toString(36).slice(2)}`,
         code: `${Math.random().toString(36).slice(2)}`,
@@ -65,7 +65,7 @@ export class ApiService {
     );
   }
 
-  getProducts(body: Object = {}): Observable<IQueryResponse> {
+  getProducts(body: any = {}): Observable<IQueryResponse> {
     /**
      * {string} body.search - If this parameter is set, results are filtered by title or code to match the search string
      * {number} body.offset - from what index in the list of results matching the query to return
@@ -101,13 +101,23 @@ export class ApiService {
         case 'ID:asc':
           return p2.ID - p1.ID;
         case 'salesLast72Hrs:desc':
-          return p2.salesLast72Hrs - p1.salesLast72Hrs;
+          if(p2.salesLast72Hrs && p1.salesLast72Hrs){
+            return p2.salesLast72Hrs - p1.salesLast72Hrs;
+          } else{
+            return -1;
+          } 
         case 'salesLast72Hrs:asc':
-          return p1.salesLast72Hrs - p2.salesLast72Hrs;
+          if(p2.salesLast72Hrs && p1.salesLast72Hrs){
+            return p1.salesLast72Hrs - p2.salesLast72Hrs;
+          } else{
+            return -1;
+          } 
         case 'releaseDate:desc':
           return moment(p2.releaseDate).diff(moment(p1.releaseDate));
         case 'releaseDate:asc':
           return moment(p1.releaseDate).diff(moment(p2.releaseDate));
+        default:
+          return -1;
       }
     });
 
@@ -131,7 +141,7 @@ export class ApiService {
     return of(response).pipe(map((product: any) => new Product(product)));
   }
 
-  createProduct(body: Object): Observable<Product> {
+  createProduct(body: any): Observable<Product> {
     //return this._http.post<Product>(`${this._apiUrl}/products`, body)
     body['ID'] = this._dbProducts.length + 1;
     this._dbProducts.push(new Product(body));
