@@ -16,7 +16,6 @@
 
 .product-details > h3{
     margin: 0;
-    max-width: calc(100% - 5rem);
 }
 
 .product-details > .product-code{
@@ -24,9 +23,8 @@
 }
 
 .product-details > .time-note{
-    position: fixed;
-    right: 1rem;
-    top: 1.3rem;
+    position: relative;
+    left: calc(100% - 5rem);
     max-width: 5rem;
     overflow: hidden;
     text-overflow: ellipsis;

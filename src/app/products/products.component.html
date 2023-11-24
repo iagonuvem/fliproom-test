@@ -3,14 +3,14 @@
         <ion-title class="text-center">Market Products</ion-title>
     </ion-toolbar>
     <ion-toolbar>
-        <ion-searchbar></ion-searchbar>
+        <ion-searchbar animated="true" (ionInput)="doSearch()" [formControl]="searchField"></ion-searchbar>
     </ion-toolbar>
     <ion-toolbar>
-        <ion-segment value="hot">
-            <ion-segment-button value="hot">
+        <ion-segment [value]="orderType">
+            <ion-segment-button (click)="onToggleProductsType('hot')" value="hot">
                 <ion-label>Hot</ion-label>
             </ion-segment-button>
-            <ion-segment-button value="upcoming">
+            <ion-segment-button (click)="onToggleProductsType('upcoming')" value="upcoming">
                 <ion-label>Upcoming</ion-label>
             </ion-segment-button>
         </ion-segment>
@@ -19,27 +19,20 @@
 
 <ion-content class="ion-padding content" [fullscreen]="true">
     <ion-list class="product-list" lines="none">
-        <ion-item class="product ion-no-padding">
+        <ion-item *ngFor="let product of productsFiltered" class="product ion-no-padding">
             <ion-thumbnail class="product-thumb">
                 <img alt="Silhouette of mountains" src="https://placehold.it/100x100" />
             </ion-thumbnail>
             <div class="product-details">
-                <ion-note slot="end" class="time-note">3 days ago</ion-note>
-                <h3>Product Name</h3>
+                <ion-note slot="end" class="time-note">{{getMomentStr(product.releaseDate)}}</ion-note>
+                <h3>{{product.title}}</h3>
                 <ion-row>
                     <ion-col class="ion-no-padding">
-                        <ion-label class="product-code">Lorem Ipsum</ion-label>
-                        <ion-note class="note">123 sales last day</ion-note>
-                        <ion-label class="sale">
-                            Sales
-                            <span>
-                                <ion-icon name="arrow-up"></ion-icon>
-                                10%
-                            </span>
-                        </ion-label>
+                        <ion-label class="product-code">{{product.code}} - {{product.variants.length}} variants</ion-label>
+                        <ion-note class="note">{{product.salesLast72Hrs}} sales last 3 days</ion-note>
                     </ion-col>
                     <ion-col class="edit-btn-container">
-                        <ion-button fill="clear" (click)="onEditProductButtonClick('1')">
+                        <ion-button fill="clear" (click)="onEditProductButtonClick(product.ID)">
                             <ion-icon name="ellipsis-vertical"></ion-icon>
                         </ion-button>
                     </ion-col>
