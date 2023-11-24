@@ -8,7 +8,11 @@ export const routes: Routes = [
         component: ProductsComponent,
     },
     {
-        path: 'new-product',
+        path: 'create-product',
+        component: ProductsFormComponent,
+    },
+    {
+        path: 'edit-product/:id',
         component: ProductsFormComponent,
     },
 ];

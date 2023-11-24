@@ -25,13 +25,15 @@ export class ProductsComponent implements OnInit {
 
   onSearch(query: string) {}
 
-  onCreateProductButtonClick() {}
+  onCreateProductButtonClick() {
+    this._router.navigateByUrl('/create-product');
+  }
 
   onToggleProductsType(productType: string) {}
 
   onSortByClick(sortBy: string) {}
 
-  newProduct(){
-    this._router.navigateByUrl('/new-product');
+  onEditProductButtonClick(id: string){
+    this._router.navigateByUrl('/edit-product/'+id);
   }
 }
