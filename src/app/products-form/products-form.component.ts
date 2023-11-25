@@ -56,7 +56,18 @@ export class ProductsFormComponent implements OnInit {
     console.log('productId: ', this.productId);
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    if(this.productId){
+      this._api.getProductById(parseInt(this.productId)).subscribe((data) => {
+        console.log(data);
+        this.productForm.get('title')?.setValue(data.title);
+        this.productForm.get('code')?.setValue(data.title);
+        if(data.variants && data.variants.length > 0){
+          data.variants.map((variant) => { this.productFormVariantsArray.push(variant) })
+        }
+        this.productForm.get('variants')?.updateValueAndValidity();
+      });
+    }
   }
 
   async pickImage(): Promise<void>{
@@ -135,7 +146,7 @@ export class ProductsFormComponent implements OnInit {
     this.imageLoading = false;
     this.imagePath = null;
     this.productForm.reset();
-    this.productForm.controls.variants.reset();
+    this.productFormVariantsArray.clear();
     this.productForm.controls.variants.setErrors({required: true});
   }
 
