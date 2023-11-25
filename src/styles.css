@@ -4,3 +4,10 @@
 body {
   font-family: Roboto, Arial, sans-serif;
 }
+
+.text-center{
+  text-align: center;
+}
+.height-fix{
+  height: 3rem;
+}

@@ -1,16 +1,27 @@
-import './polyfills';
+import { enableProdMode, importProvidersFrom } from '@angular/core';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { RouteReuseStrategy, provideRouter } from '@angular/router';
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { routes } from './app/app.routes';
+import { AppComponent } from './app/app.component';
+import { environment } from './environments/environment';
+import { provideHttpClient } from '@angular/common/http';
+import { ApiService } from './core/api.service';
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
 
-import { AppModule } from './app/app.module';
+defineCustomElements(window);
 
-platformBrowserDynamic().bootstrapModule(AppModule).then(ref => {
-  // Ensure Angular destroys itself on hot reloads.
-  if (window['ngRef']) {
-    window['ngRef'].destroy();
-  }
-  window['ngRef'] = ref;
+if (environment.production) {
+  enableProdMode();
+}
 
-  // Otherwise, log the boot error
-}).catch(err => console.error(err));
+bootstrapApplication(AppComponent, {
+  providers: [
+    ApiService,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    importProvidersFrom(IonicModule.forRoot({})),
+    provideHttpClient(),
+    provideRouter(routes),
+  ],
+});

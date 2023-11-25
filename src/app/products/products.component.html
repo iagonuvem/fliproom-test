@@ -1,1 +1,48 @@
-<p>Product component works</p>
+<ion-header>
+    <ion-toolbar>
+        <ion-title class="text-center">Market Products</ion-title>
+    </ion-toolbar>
+    <ion-toolbar>
+        <ion-searchbar animated="true" (ionInput)="doSearch()" [formControl]="searchField"></ion-searchbar>
+    </ion-toolbar>
+    <ion-toolbar>
+        <ion-segment [value]="orderType">
+            <ion-segment-button (click)="onToggleProductsType('hot')" value="hot">
+                <ion-label>Hot</ion-label>
+            </ion-segment-button>
+            <ion-segment-button (click)="onToggleProductsType('upcoming')" value="upcoming">
+                <ion-label>Upcoming</ion-label>
+            </ion-segment-button>
+        </ion-segment>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding content" [fullscreen]="true">
+    <ion-list class="product-list" lines="none">
+        <ion-item *ngFor="let product of productsFiltered" class="product ion-no-padding">
+            <ion-thumbnail class="product-thumb">
+                <img alt="Silhouette of mountains" src="https://placehold.it/100x100" />
+            </ion-thumbnail>
+            <div class="product-details">
+                <ion-note slot="end" class="time-note">{{getMomentStr(product.releaseDate)}}</ion-note>
+                <h3>{{product.title}}</h3>
+                <ion-row>
+                    <ion-col class="ion-no-padding">
+                        <ion-label class="product-code">{{product.code}} - {{product.variants.length}} variants</ion-label>
+                        <ion-note class="note">{{product.salesLast72Hrs}} sales last 3 days</ion-note>
+                    </ion-col>
+                    <ion-col class="edit-btn-container">
+                        <ion-button fill="clear" (click)="onEditProductButtonClick(product.ID)">
+                            <ion-icon name="ellipsis-vertical"></ion-icon>
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+            </div>
+        </ion-item>
+    </ion-list>
+</ion-content>
+<ion-footer>
+    <ion-button expand="full" (click)="onCreateProductButtonClick()">
+        Add New Product
+    </ion-button>
+</ion-footer>
