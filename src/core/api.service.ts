@@ -101,17 +101,17 @@ export class ApiService {
         case 'ID:asc':
           return p2.ID - p1.ID;
         case 'salesLast72Hrs:desc':
-          if(p2.salesLast72Hrs && p1.salesLast72Hrs){
+          if (p2.salesLast72Hrs && p1.salesLast72Hrs) {
             return p2.salesLast72Hrs - p1.salesLast72Hrs;
-          } else{
+          } else {
             return -1;
-          } 
+          }
         case 'salesLast72Hrs:asc':
-          if(p2.salesLast72Hrs && p1.salesLast72Hrs){
+          if (p2.salesLast72Hrs && p1.salesLast72Hrs) {
             return p1.salesLast72Hrs - p2.salesLast72Hrs;
-          } else{
+          } else {
             return -1;
-          } 
+          }
         case 'releaseDate:desc':
           return moment(p2.releaseDate).diff(moment(p1.releaseDate));
         case 'releaseDate:asc':
@@ -164,5 +164,35 @@ export class ApiService {
         return resp;
       })
     );
+  }
+
+
+  findMaxValues(array: any) {
+    let maxPosition = -Infinity;
+    let maxID = -Infinity;
+    let maxProductID = -Infinity;
+
+    for (const object of array) {
+      // Find the maximum value for 'position'
+      if (object.position > maxPosition) {
+        maxPosition = object.position;
+      }
+
+      // Find the maximum value for 'ID'
+      if (object.ID > maxID) {
+        maxID = object.ID;
+      }
+
+      // Find the maximum value for 'productID'
+      if (object.productID > maxProductID) {
+        maxProductID = object.productID;
+      }
+    }
+
+    return {
+      maxPosition,
+      maxID,
+      maxProductID,
+    };
   }
 }

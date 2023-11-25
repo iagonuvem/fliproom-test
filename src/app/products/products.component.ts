@@ -28,10 +28,10 @@ export class ProductsComponent implements OnInit {
 
   constructor(private _api: ApiService, private _router: Router) {
     this.searchField = new FormControl('');
-    this.getProducts();
   }
 
   async ngOnInit(): Promise<void> { 
+    this.getProducts();
     this.sortHot();
   }
 
@@ -65,7 +65,7 @@ export class ProductsComponent implements OnInit {
   onSortByClick(sortBy: string) { }
 
   onEditProductButtonClick(id: number) {
-    this._router.navigateByUrl('/edit-product/' + id);
+    this._router.navigateByUrl(`/edit-product/${id}`);
   }
 
   getMomentStr(dateStr: any) {

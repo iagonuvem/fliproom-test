@@ -4,62 +4,55 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding content" [fullscreen]="true">
+<ion-content class="ion-padding">
     <ion-title>Images</ion-title>
     <ion-row class="ion-padding">
-        <ion-button color="light" size="large" expand="block">
-            <ion-icon name="add"></ion-icon>
+        <ion-button *ngIf="!imagePath" (click)="pickImage()" color="light" size="large" expand="block">
+            <ion-icon *ngIf="!imageLoading" name="add"></ion-icon>
+            <ion-spinner *ngIf="imageLoading" name="crescent"></ion-spinner>
         </ion-button>
-        <!-- <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"
-            alt="The Wisconsin State Capitol building in Madison, WI at night"></ion-img> -->
+        <ion-img *ngIf="imagePath" [src]="imagePath"></ion-img>
     </ion-row>
 
     <ion-title>Product</ion-title>
     <ion-list>
         <ion-item>
-            <ion-input label="Title" labelPlacement="floating" placeholder="Enter Title"></ion-input>
+            <ion-input error-text="Title is required" label="Title" labelPlacement="floating"
+                [formControl]="productForm.controls.title" placeholder="Enter Title">
+            </ion-input>
+
         </ion-item>
         <ion-item>
-            <ion-input label="Code" labelPlacement="floating" placeholder="Enter Code"></ion-input>
+            <ion-input error-text="Code is required" label="Code" labelPlacement="floating"
+                [formControl]="productForm.controls.code" placeholder="Enter Code"></ion-input>
         </ion-item>
     </ion-list>
 
     <ion-title>Variants</ion-title>
-    <ion-button class="btn-add" fill="outline" expand="block">
-        <ion-label>Add</ion-label>
+    <ion-button (click)="variantPrompt()" class="btn-add" fill="clear" expand="block">
+        Add
     </ion-button>
-   
+
 
     <ion-list class="ion-padding">
+        <ion-text color="warning"  *ngIf="productForm.controls.variants.hasError('required') && productForm.controls.variants.pristine">
+            <ion-icon name="warning"></ion-icon>
+            Add at least one variant.
+        </ion-text>
+
         <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
-            <ion-item>
+            <ion-item *ngFor="let variant of productFormVariantsArray.value; let i = index">
                 <ion-reorder slot="start"></ion-reorder>
-                <ion-label> Item 1 </ion-label>
-                <ion-button color="danger" slot="end" fill="clear" shape="round" expand="block">
+                <ion-label> {{variant.title}} </ion-label>
+                <ion-button (click)="onRemoveVariant(i)" color="danger" slot="end" fill="clear" shape="round"
+                    expand="block">
                     <ion-icon name="close-circle-outline"></ion-icon>
                 </ion-button>
             </ion-item>
-            <ion-item>
-                <ion-reorder slot="start"></ion-reorder>
-                <ion-label> Item 2 </ion-label>
-                <ion-button color="danger" slot="end" fill="clear" shape="round" expand="block">
-                    <ion-icon name="close-circle-outline"></ion-icon>
-                </ion-button>
-            </ion-item>
-            <ion-item>
-                <ion-reorder slot="start"></ion-reorder>
-                <ion-label> Item 3 </ion-label>
-                <ion-button color="danger" slot="end" fill="clear" shape="round" expand="block">
-                    <ion-icon name="close-circle-outline"></ion-icon>
-                </ion-button>
-            </ion-item>
-            
         </ion-reorder-group>
     </ion-list>
-
 </ion-content>
-<!-- <ion-footer>
-    <ion-button expand="block">
-        {{operationStr}} Product
-    </ion-button>
-</ion-footer> -->
+<ion-footer>
+    <ion-button class="height-fix" expand="block" size="large" [disabled]="!productForm.valid" (click)="onCreate()">{{operationStr}}
+        Product</ion-button>
+</ion-footer>
